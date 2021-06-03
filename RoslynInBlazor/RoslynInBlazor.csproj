@@ -12,4 +12,9 @@
     <!--<PackageReference Include="sqlitepclraw.bundle_e_sqlite3" Version="1.0.0" />-->
   </ItemGroup>
 
+  <Target Name="RemoveSatelliteAssemblies" BeforeTargets="WasmBuildApp">
+    <ItemGroup>
+      <WasmAssembliesToBundle Remove="@(WasmAssembliesToBundle)" Condition="$([System.String]::Copy('%(Identity)').EndsWith('.resources.dll'))" />
+    </ItemGroup>
+  </Target>
 </Project>
