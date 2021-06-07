@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "dotnet-install-blazoraot": {
+      "version": "6.0.0-preview.4.21253.5",
+      "commands": [
+        "dotnet-install-blazoraot"
+      ]
+    }
+  }
+}
