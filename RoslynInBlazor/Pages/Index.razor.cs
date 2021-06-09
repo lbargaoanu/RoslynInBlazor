@@ -48,7 +48,7 @@ namespace RoslynInBlazor.Pages
         }
         async Task LoadAssemblies()
         {
-            await Task.WhenAll(AssemblyLoadContext.Default.Assemblies.Select(a => (a.GetName().Name, a.CodeBase)).Where(a => a.Name.Length > 0 && !a.Name.Contains(".resources") &&
+            await Task.WhenAll(new[] { typeof(int).Assembly }.Select(a => (a.GetName().Name, a.CodeBase)).Where(a => a.Name.Length > 0 && !a.Name.Contains(".resources") &&
                  !_loadedAssemblies.ContainsKey(a.Name)).Select(async assemblyItem =>
                  {
                      Console.WriteLine("Loading " + assemblyItem.Name);
