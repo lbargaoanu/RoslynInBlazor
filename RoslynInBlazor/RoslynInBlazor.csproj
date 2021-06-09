@@ -11,6 +11,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Features" Version="3.8.0" />
     <PackageReference Include="sqlitepclraw.core" Version="1.0.0" />
     <PackageReference Include="sqlitepclraw.bundle_e_sqlite3" Version="1.0.0" />
+    <PackageReference Include="UiPath.Workflow" Version="1.0.0-20210505-02" />
   </ItemGroup>
 
   <Target Name="RemoveSatelliteAssemblies" BeforeTargets="WasmBuildApp">
