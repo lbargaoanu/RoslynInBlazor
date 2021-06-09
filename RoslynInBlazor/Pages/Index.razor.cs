@@ -48,7 +48,6 @@ namespace RoslynInBlazor.Pages
         }
         async Task LoadAssemblies()
         {
-            Assembly.Load("netstandard");
             await Task.WhenAll(AssemblyLoadContext.Default.Assemblies.Select(a => (a.GetName().Name, a.CodeBase)).Where(a => a.Name.Length > 0 && !a.Name.Contains(".resources") &&
                  !_loadedAssemblies.ContainsKey(a.Name)).Select(async assemblyItem =>
                  {
