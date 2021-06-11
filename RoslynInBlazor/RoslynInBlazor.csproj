@@ -17,6 +17,8 @@
   <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.AspNetCore.Components.WebAssembly" />
     <TrimmerRootAssembly Include="UiPath.Workflow" />
+    <TrimmerRootAssembly Include="mscorlib" />
+    <TrimmerRootAssembly Include="netstandard" />
     <TrimmerRootAssembly Include="Microsoft.VisualBasic" />
     <TrimmerRootAssembly Include="Microsoft.VisualBasic.Core" />
   </ItemGroup>

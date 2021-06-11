@@ -50,6 +50,8 @@ namespace RoslynInBlazor.Pages
         }
         async Task LoadAssemblies()
         {
+            Assembly.Load("netstandard");
+            Assembly.Load("mscorlib");
             Assembly.Load("System.Xaml");
             Assembly.Load("System.Linq.Expressions");
             Assembly.Load("Microsoft.VisualBasic");
@@ -70,13 +72,13 @@ namespace RoslynInBlazor.Pages
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public double Salary { get; set; }
+        public int Salary { get; set; }
 
         public Employee()
         {
         }
 
-        public Employee(string firstName, string lastName, double salary)
+        public Employee(string firstName, string lastName, int salary)
         {
             this.FirstName = firstName;
             this.LastName = lastName;
