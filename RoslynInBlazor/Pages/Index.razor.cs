@@ -50,8 +50,6 @@ namespace RoslynInBlazor.Pages
         }
         async Task LoadAssemblies()
         {
-            Assembly.Load("netstandard");
-            Assembly.Load("mscorlib");
             Assembly.Load("System.Xaml");
             Assembly.Load("System.Linq.Expressions");
             Assembly.Load("Microsoft.VisualBasic");
