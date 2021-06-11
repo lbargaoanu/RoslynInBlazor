@@ -52,6 +52,7 @@ namespace RoslynInBlazor.Pages
         {
             Assembly.Load("System.Xaml");
             Assembly.Load("System.Linq.Expressions");
+            Assembly.Load("Microsoft.VisualBasic");
             Assembly.Load("Microsoft.VisualBasic.Core");
             Assembly.Load("System.ComponentModel.Primitives");
             Assembly.Load("System.CodeDom");

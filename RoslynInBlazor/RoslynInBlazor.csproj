@@ -1,25 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RunAOTCompilation>true</RunAOTCompilation>
     <RootNamespace>RoslynInBlazor</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.6" PrivateAssets="all" />
-    <!--<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-preview.4.21253.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-preview.4.21253.5" PrivateAssets="all" />-->
+    <!--<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.6" PrivateAssets="all" />-->
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-preview.4.21253.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-preview.4.21253.5" PrivateAssets="all" />
     <PackageReference Include="UiPath.Workflow" Version="1.0.0-20210610-01" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\SalaryCalculation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Content>
+    <TrimmerRootAssembly Include="Microsoft.AspNetCore.Components.WebAssembly" />
+    <TrimmerRootAssembly Include="UiPath.Workflow" />
+    <TrimmerRootAssembly Include="Microsoft.VisualBasic" />
+    <TrimmerRootAssembly Include="Microsoft.VisualBasic.Core" />
   </ItemGroup>
-
+  
   <Target Name="RemoveSatelliteAssemblies" BeforeTargets="WasmBuildApp">
     <ItemGroup>
       <WasmAssembliesToBundle Remove="@(WasmAssembliesToBundle)" Condition="$([System.String]::Copy('%(Identity)').EndsWith('.resources.dll'))" />
