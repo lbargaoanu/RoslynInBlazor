@@ -5,9 +5,10 @@ VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoslynInBlazor", "RoslynInBlazor\RoslynInBlazor.csproj", "{5EBD6C78-9784-452C-AA39-B658671BF88B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compiler", "Compiler\Compiler.csproj", "{1124233C-7315-4D5B-A486-7DE9A89C2BC7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{61AEB609-6E54-4C2C-ACAB-FC45054D5921}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{52C91829-B7DD-49E0-8264-0270A79AC6DF}"
+	ProjectSection(SolutionItems) = preProject
+		nuget.config = nuget.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +20,6 @@ Global
 		{5EBD6C78-9784-452C-AA39-B658671BF88B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EBD6C78-9784-452C-AA39-B658671BF88B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EBD6C78-9784-452C-AA39-B658671BF88B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1124233C-7315-4D5B-A486-7DE9A89C2BC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1124233C-7315-4D5B-A486-7DE9A89C2BC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1124233C-7315-4D5B-A486-7DE9A89C2BC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1124233C-7315-4D5B-A486-7DE9A89C2BC7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61AEB609-6E54-4C2C-ACAB-FC45054D5921}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61AEB609-6E54-4C2C-ACAB-FC45054D5921}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61AEB609-6E54-4C2C-ACAB-FC45054D5921}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61AEB609-6E54-4C2C-ACAB-FC45054D5921}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
