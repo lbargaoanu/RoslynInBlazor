@@ -1,5 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,11 +15,11 @@ namespace Compiler
         {
             var watch = Stopwatch.StartNew();
             var tree = SyntaxFactory.ParseSyntaxTree(text);
-            var compilation = CSharpCompilation.Create(
+            var compilation = VisualBasicCompilation.Create(
                 "calc.dll",
-                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, concurrentBuild: false),
+                options: new VisualBasicCompilationOptions(OutputKind.DynamicallyLinkedLibrary, concurrentBuild: false),
                 syntaxTrees: new[] { tree },
-                references : references);
+                references: references);
             Assembly compiledAssembly;
             using (var stream = new MemoryStream())
             {
@@ -29,68 +29,96 @@ namespace Compiler
             }
             watch.Stop();
             Console.WriteLine("Compilation : " + watch.Elapsed.TotalSeconds);
-            var calculator = compiledAssembly.GetType("Calculator");
-            var evaluate = calculator.GetMethod("Evaluate");
+            Type calculator = compiledAssembly.GetType("Calculator");
+            MethodInfo evaluate = calculator.GetMethod("Evaluate");
             return evaluate.Invoke(null, null).ToString();
         }
         static string text = @"
-using System;
-public class Calculator
-{
-    public static object Evaluate()
-    {
-        return 6*7;
-    } 
-    public readonly struct MapRequest : IEquatable<MapRequest>
-{
-    public readonly TypePair RequestedTypes;
-    public readonly TypePair RuntimeTypes;
-    public MapRequest(in TypePair requestedTypes, in TypePair runtimeTypes)
-    {
-        RequestedTypes = requestedTypes;
-        RuntimeTypes = runtimeTypes;
-    }
-    public bool Equals(MapRequest other) =>
-        RequestedTypes.Equals(other.RequestedTypes) && RuntimeTypes.Equals(other.RuntimeTypes);
-    public override bool Equals(object obj) => obj is MapRequest other && Equals(other);
-    public static bool operator ==(in MapRequest left, in MapRequest right) => left.Equals(right);
-    public static bool operator !=(in MapRequest left, in MapRequest right) => !left.Equals(right);
-}
-public readonly struct TypePair : IEquatable<TypePair>
-{
-    public readonly Type SourceType;
-    public readonly Type DestinationType;
-    public TypePair(Type sourceType, Type destinationType)
-    {
-        SourceType = sourceType;
-        DestinationType = destinationType;
-    }
-    public bool Equals(TypePair other) => SourceType == other.SourceType && DestinationType == other.DestinationType;
-    public override bool Equals(object other) => other is TypePair otherPair && Equals(otherPair);
-    public bool IsConstructedGenericType => SourceType.IsConstructedGenericType || DestinationType.IsConstructedGenericType;
-    public bool IsGenericTypeDefinition => SourceType.IsGenericTypeDefinition || DestinationType.IsGenericTypeDefinition;
-    public bool ContainsGenericParameters => SourceType.ContainsGenericParameters || DestinationType.ContainsGenericParameters;
-    public TypePair CloseGenericTypes(in TypePair closedTypes)
-    {
-        var sourceArguments = closedTypes.SourceType.GenericTypeArguments;
-        var destinationArguments = closedTypes.DestinationType.GenericTypeArguments;
-        if (sourceArguments.Length == 0)
-        {
-            sourceArguments = destinationArguments;
-        }
-        else if (destinationArguments.Length == 0)
-        {
-            destinationArguments = sourceArguments;
-        }
-        var closedSourceType = SourceType.IsGenericTypeDefinition ? SourceType.MakeGenericType(sourceArguments) : SourceType;
-        var closedDestinationType = DestinationType.IsGenericTypeDefinition ? DestinationType.MakeGenericType(destinationArguments) : DestinationType;
-        return new TypePair(closedSourceType, closedDestinationType);
-    }
-    public TypePair GetTypeDefinitionIfGeneric() => new TypePair(GetTypeDefinitionIfGeneric(SourceType), GetTypeDefinitionIfGeneric(DestinationType));
-    private static Type GetTypeDefinitionIfGeneric(Type type) => type.IsGenericType ? type.GetGenericTypeDefinition() : type;
-    public static bool operator ==(in TypePair left, in TypePair right) => left.Equals(right);
-    public static bool operator !=(in TypePair left, in TypePair right) => !left.Equals(right);
-}
-}";
+Imports System
+
+Public Class Calculator
+    Public Shared Function Evaluate() As Object
+        Return 6 * 7
+    End Function
+
+    Public Structure MapRequest
+        Public ReadOnly RequestedTypes As TypePair
+        Public ReadOnly RuntimeTypes As TypePair
+
+        Public Sub New(ByVal requestedTypes As TypePair, ByVal runtimeTypes As TypePair)
+            RequestedTypes = requestedTypes
+            RuntimeTypes = runtimeTypes
+        End Sub
+
+        Public Shared Operator =(ByVal left As MapRequest, ByVal right As MapRequest) As Boolean
+            Return left.Equals(right)
+        End Operator
+
+        Public Shared Operator <>(ByVal left As MapRequest, ByVal right As MapRequest) As Boolean
+            Return Not left.Equals(right)
+        End Operator
+    End Structure
+
+    Public  Structure TypePair
+        Public ReadOnly SourceType As Type
+        Public ReadOnly DestinationType As Type
+
+        Public Sub New(ByVal sourceType As Type, ByVal destinationType As Type)
+            SourceType = sourceType
+            DestinationType = destinationType
+        End Sub
+
+        Public ReadOnly Property IsConstructedGenericType As Boolean
+            Get
+                Return SourceType.IsConstructedGenericType OrElse DestinationType.IsConstructedGenericType
+            End Get
+        End Property
+
+        Public ReadOnly Property IsGenericTypeDefinition As Boolean
+            Get
+                Return SourceType.IsGenericTypeDefinition OrElse DestinationType.IsGenericTypeDefinition
+            End Get
+        End Property
+
+        Public ReadOnly Property ContainsGenericParameters As Boolean
+            Get
+                Return SourceType.ContainsGenericParameters OrElse DestinationType.ContainsGenericParameters
+            End Get
+        End Property
+
+        Public Function CloseGenericTypes(ByVal closedTypes As TypePair) As TypePair
+            Dim sourceArguments = closedTypes.SourceType.GenericTypeArguments
+            Dim destinationArguments = closedTypes.DestinationType.GenericTypeArguments
+
+            If sourceArguments.Length = 0 Then
+                sourceArguments = destinationArguments
+            ElseIf destinationArguments.Length = 0 Then
+                destinationArguments = sourceArguments
+            End If
+
+            Dim closedSourceType = If(SourceType.IsGenericTypeDefinition, SourceType.MakeGenericType(sourceArguments), SourceType)
+            Dim closedDestinationType = If(DestinationType.IsGenericTypeDefinition, DestinationType.MakeGenericType(destinationArguments), DestinationType)
+            Return New TypePair(closedSourceType, closedDestinationType)
+        End Function
+
+        Public Function GetTypeDefinitionIfGeneric() As TypePair
+            Return New TypePair(GetTypeDefinitionIfGeneric(SourceType), GetTypeDefinitionIfGeneric(DestinationType))
+        End Function
+
+        Private Shared Function GetTypeDefinitionIfGeneric(ByVal type As Type) As Type
+            Return If(type.IsGenericType, type.GetGenericTypeDefinition(), type)
+        End Function
+
+        Public Shared Operator =(ByVal left As TypePair, ByVal right As TypePair) As Boolean
+            Return left.Equals(right)
+        End Operator
+
+        Public Shared Operator<>(ByVal left As TypePair, ByVal right As TypePair) As Boolean
+            Return Not left.Equals(right)
+        End Operator
+
+    End Structure
+End Class
+";
     }
 }

@@ -9,7 +9,6 @@ using System.Runtime.Loader;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace RoslynInBlazor.Pages
 {
