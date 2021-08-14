@@ -56,11 +56,11 @@ namespace RoslynInBlazor.Pages
             Assembly.Load("Microsoft.VisualBasic.Core");
             Assembly.Load("System.ComponentModel.Primitives");
             Assembly.Load("System.CodeDom");
-            await Task.WhenAll(AssemblyLoadContext.Default.Assemblies.Select(a => (a.GetName().Name, a.CodeBase)).Where(a => a.Name.Length > 0 && !a.Name.Contains(".resources") &&
+            await Task.WhenAll(AssemblyLoadContext.Default.Assemblies.Select(a => (a.GetName().Name, a.Location)).Where(a => a.Name.Length > 0 && !a.Name.Contains(".resources") &&
                  !_loadedAssemblies.ContainsKey(a.Name)).Select(async assemblyItem =>
                  {
                      Console.WriteLine("Loading " + assemblyItem.Name);
-                     var stream = await HttpClient.GetStreamAsync(Path.Combine("_framework", Path.GetFileName(assemblyItem.CodeBase)));
+                     var stream = await HttpClient.GetStreamAsync(Path.Combine("_framework", Path.GetFileName(assemblyItem.Location)));
                      Console.WriteLine("Loaded " + assemblyItem.Name);
                      _loadedAssemblies.Add(assemblyItem.Name, MetadataReference.CreateFromStream(stream));
                  }));
