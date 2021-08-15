@@ -60,7 +60,7 @@ namespace RoslynInBlazor.Pages
                  !_loadedAssemblies.ContainsKey(a.Name)).Select(async assemblyItem =>
                  {
                      Console.WriteLine("Loading " + assemblyItem.Name);
-                     var stream = await HttpClient.GetStreamAsync(Path.Combine("_framework", Path.GetFileName(assemblyItem.Location)));
+                     var stream = await HttpClient.GetStreamAsync(Path.Combine("_framework", assemblyItem.Name + ".dll"));
                      Console.WriteLine("Loaded " + assemblyItem.Name);
                      _loadedAssemblies.Add(assemblyItem.Name, MetadataReference.CreateFromStream(stream));
                  }));
