@@ -14,18 +14,4 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-preview.7.21378.6" PrivateAssets="all" />
     <PackageReference Include="UiPath.Workflow" Version="1.0.0-20210610-01" />
   </ItemGroup>
-
-  <ItemGroup>
-    <TrimmerRootAssembly Include="RoslynInBlazor" />
-    <TrimmerRootAssembly Include="Microsoft.AspNetCore.Components.WebAssembly" />
-    <TrimmerRootAssembly Include="UiPath.Workflow" />
-    <TrimmerRootAssembly Include="Microsoft.VisualBasic" />
-    <TrimmerRootAssembly Include="Microsoft.VisualBasic.Core" />
-  </ItemGroup>
-  
-  <Target Name="RemoveSatelliteAssemblies" BeforeTargets="WasmBuildApp">
-    <ItemGroup>
-      <WasmAssembliesToBundle Remove="@(WasmAssembliesToBundle)" Condition="$([System.String]::Copy('%(Identity)').EndsWith('.resources.dll'))" />
-    </ItemGroup>
-  </Target>
 </Project>
